@@ -3,8 +3,8 @@
 # rrt.py
 # This program generates a simple rapidly
 # exploring random tree (RRT) in a rectangular region.
-#
-# Written by Steve LaValle
+
+## Written by Steve LaValle
 # May 2011
 
 import sys, random, math, pygame
@@ -36,24 +36,7 @@ def main():
 	white = 255, 240, 200
 	black = 20, 20, 40
 	screen.fill(black)
-
-# 	nodes = []
-
-# 	nodes.append((XDIM/2.0,YDIM/2.0)) # Start in the center
-# #    nodes.append((0.0,0.0)) # Start in the corner
-
-# 	for i in range(NUMNODES):
-# 		rand = random.random() * float(XDIM) , random.random() * float(YDIM)
-# 		nn = nodes[0]
-
-# 		for p in nodes:
-# 			if dist(p, rand) < dist(nn, rand):
-# 				nn = p
-# 		newnode = step_from_to(nn,rand)
-# 		nodes.append(newnode)
-# 		pygame.draw.line(screen,white,nn,newnode)
-# 		pygame.display.update()
-# 		#print i, "    ", nodes
+	pygame.display.update()
 
 	init_point = None;
 	end_point = None;
@@ -64,15 +47,13 @@ def main():
 				sys.exit("Leaving because you requested it.")
 
 			if e.type == MOUSEBUTTONDOWN and e.button == 1:
-				e.pos
-
 				if init_point == None:
 					init_point = e.pos
 				elif end_point == None:
 					end_point = e.pos
 
 		if init_point and end_point:
-			print("ready")
+			print("planning")
 
 			nodes = []
 			nodes.append( init_point )
@@ -83,7 +64,7 @@ def main():
 				best_node = None;
 				base_node = nodes[-1]
 
-				for i in range(1000):
+				for i in range(500):
 					rand_node = random.random() * float(XDIM) , random.random() * float(YDIM)
 
 					if best_node == None or (dist(rand_node, end_point) < dist(best_node, end_point)):
