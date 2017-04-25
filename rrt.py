@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 
-import sys, random, math, pygame
-from pygame.locals import *
+import random, math
 from math import sqrt,cos,sin,atan2
 
 import numpy as np
 from scipy.misc import comb
 
-#constants
-XDIM = 640
-YDIM = 480
-WINSIZE = [XDIM, YDIM]
 EPSILON = 7.0
 
 def dist(p1,p2):
@@ -85,54 +80,3 @@ def plan(map_size, init_point, end_point):
 
 def bezier_plan(map_size, init_point, end_point):
 	return bezier_curve(plan(map_size, init_point, end_point))
-
-def main():
-	#initialize and prepare screen
-	pygame.init()
-	screen = pygame.display.set_mode(WINSIZE)
-	pygame.display.set_caption('RRT')
-	white = 255, 240, 200
-	black = 20, 20, 40
-	color = 0, 255, 100
-	screen.fill(black)
-	pygame.display.update()
-
-	init_point = None;
-	end_point = None;
-
-	while True:
-		for e in pygame.event.get():
-			if e.type == QUIT or (e.type == KEYUP and e.key == K_ESCAPE):
-				sys.exit("Leaving because you requested it.")
-
-			if e.type == KEYUP and e.key == K_c:
-				print("clear screen")
-				screen.fill(black)
-				pygame.display.update()
-
-			if e.type == MOUSEBUTTONDOWN and e.button == 1:
-				if init_point == None:
-					init_point = e.pos
-				elif end_point == None:
-					end_point = e.pos
-
-		if init_point and end_point:
-
-			plan = bezier_plan([XDIM, YDIM], init_point, end_point)
-
-			for i in range(len(plan) - 1):
-				p1 = plan[i]
-				p2 = plan[i+1]
-
-				pygame.draw.line(screen, color, p1, p2)
-
-			pygame.display.update()
-
-			init_point = None
-			end_point = None
-
-# if python says run, then we should run
-if __name__ == '__main__':
-	main()
-
-
