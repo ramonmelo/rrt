@@ -52,7 +52,10 @@ def bezier_curve(points, nTimes=1000):
 
     return np.column_stack([xvals, yvals]).tolist()
 
-def plan(map_size, init_point, end_point):
+def get_random_point(width, height):
+	return int(random.random() * float(width)), int(random.random() * float(height))
+
+def normal_plan(map_size, init_point, end_point, workspace = None):
 	print("planning")
 
 	nodes = []
@@ -64,7 +67,12 @@ def plan(map_size, init_point, end_point):
 		base_node = nodes[-1]
 
 		for i in range(25):
-			rand_node = random.random() * float(map_size[0]) , random.random() * float(map_size[1])
+
+			# while True:
+			rand_node = get_random_point(map_size[0], map_size[1])
+
+				# if not workspace.colides(rand_node):
+					# break
 
 			if best_node == None or (dist(rand_node, end_point) < dist(best_node, end_point)):
 				best_node = rand_node
@@ -78,5 +86,5 @@ def plan(map_size, init_point, end_point):
 
 	return nodes
 
-def bezier_plan(map_size, init_point, end_point):
-	return bezier_curve(plan(map_size, init_point, end_point))
+def bezier_plan(map_size, init_point, end_point, workspace = None):
+	return bezier_curve(normal_plan(map_size, init_point, end_point, workspace))
